@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ChatBot Educativo – Grupo 21</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f7f8; --card:#ffffff; --text:#0f172a; --muted:#475569;
+    --ring:#e2e8f0; --primary:#2563eb; --primary-weak:#dbeafe;
+    --success:#16a34a; --shadow:0 10px 30px rgba(2,6,23,.06); --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg);}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1120px;margin:0 auto;padding:24px}
+  header{position:sticky;top:0;z-index:40;backdrop-filter:saturate(1.2) blur(6px);background:color-mix(in oklab, var(--bg) 85%, white 15%);border-bottom:1px solid var(--ring);}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700}
+  /*.brand .logo{width:32px;height:32px;display:grid;place-items:center;border-radius:10px;background:var(--primary-weak);box-shadow:var(--shadow)}*/
+  .brand .logo {
+  width: 64px;
+  height:64px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.brand .logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block; /* importante */
+}
+
+  .links{display:flex;gap:18px;color:var(--muted)}
+  .links a{padding:10px 12px;border-radius:10px}
+  .links a:hover{background:#eef2ff;color:#1e293b}
+
+  /*.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:center;padding:48px 0}
+  .hero h1{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:0 0 12px}
+  .hero p{color:var(--muted);font-size:clamp(16px,2.2vw,18px);margin:0 0 20px}*/
+  .hero {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 32px;
+  align-items: center;
+  padding: 48px 0;
+  position: relative;
+  background-image: url('../static/fondo.jpeg'); /* tu imagen de fondo */
+  background-size: cover;
+  background-position: center center;
+  color: white; /* para que el texto resalte */
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4); /* overlay oscuro */
+  z-index: 1; /* queda debajo del contenido */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2; /* todo el contenido, incluidos los botones, sobre el overlay */
+}
+
+  
+  
+  
+  .cta{display:flex;gap:12px;align-items:center}
+  .btn{appearance:none;border:0;border-radius:12px;padding:14px 18px;font-weight:600;cursor:pointer}
+  .btn-primary{background:var(--primary);color:white;box-shadow:0 6px 18px rgba(37,99,235,.25)}
+  .btn-primary:focus{outline:3px solid var(--primary-weak)}
+  .btn-ghost{background:transparent;border:1px solid var(--ring);color:white}
+
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+  /*.feature{background:var(--card);border:1px solid var(--ring);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:flex-start}*/
+  .feature {
+  background: rgba(255,255,255,0.1); /* fondo semitransparente */
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  backdrop-filter: blur(6px); /* difuminado */
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: white;
+}
+  .feature .icn{width:36px;height:36px;border-radius:10px;background:var(--primary-weak);display:grid;place-items:center;flex:0 0 36px}
+  .feature h3{margin:2px 0 6px;font-size:16px; color: #ffffff}
+  .feature p{margin:0;color:var(--muted);font-size:14px;  color: #ffffff}
+
+  /* Chat */
+  .chat-card{background:var(--card);border:1px solid var(--ring);border-radius:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:520px;overflow:hidden;margin-top:24px}
+  .chat-header{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--ring)}
+  .chat-dot{width:8px;height:8px;border-radius:999px;background:var(--success)}
+  .chat-title{font-weight:600}
+  .messages{flex:1;overflow:auto;padding:18px;display:flex;flex-direction:column;gap:10px}
+  .bubble{max-width:78%;padding:12px 14px;border-radius:14px;line-height:1.35;border:1px solid var(--ring);}
+  .bubble.user{margin-left:auto;background:#eff6ff}
+  .bubble.bot{background:white}
+  .msg-meta{margin-top:6px;font-size:12px;color:var(--muted)}
+  .inputbar{display:flex;gap:10px;align-items:center;padding:12px;border-top:1px solid var(--ring);background:#fff}
+  .field{flex:1;display:flex;align-items:center;gap:8px;border:1px solid var(--ring);border-radius:999px;padding:10px 12px;background:white}
+  .field input{flex:1;border:0;outline:0;font:inherit}
+  .send{border:0;border-radius:999px;padding:10px 14px;background:var(--text);color:white;cursor:pointer}
+  .send[disabled]{opacity:.6;cursor:not-allowed}
+  .typing{display:inline-flex;gap:5px;align-items:center}
+  .dot{width:6px;height:6px;border-radius:999px;background:#cbd5e1;animation:blink 1.2s infinite}
+  .dot:nth-child(2){animation-delay:.15s}
+  .dot:nth-child(3){animation-delay:.3s}
+  @keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+  footer{padding:48px 0 24px;color:var(--muted)}
+  @media (max-width: 920px){.hero{grid-template-columns:1fr}.features{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<div class="container nav" role="navigation" aria-label="Navegación principal">
+  <div class="brand">
+  <span class="logo">
+    <img src="{{ url_for('static', filename='contacto.png') }}" alt="Logo ChatBot" />
+  </span>
+  <span class="title">ChatBot Educativo</span>
+</div>
+
+  <nav class="links">
+    <a href="#inicio">Inicio</a>
+    <a href="{{ url_for('proyecto') }}">Proyecto</a>
+    <a href="{{ url_for('ichat') }}">Chatbot</a>
+    <a href="{{ url_for('contacto') }}">Contacto</a>
+  </nav>
+</div>
+</header>
+
+<main id="app" class="container">
+
+  <section id="inicio" class="hero" aria-labelledby="h-title">
+  <div class="hero-overlay"></div> <!-- Overlay semitransparente -->
+  <div class="hero-content">
+    <h1 id="h-title">Tu Asistente Educativo Disponible 24/7</h1>
+    <p>Resuelve dudas al instante y aprende a tu ritmo. Interfaz clara, respuestas útiles y privacidad cuidada.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="{{ url_for('ichat') }}" aria-label="Ir al chat">Probar el Chatbot</a>
+      <a class="btn btn-ghost" href="{{ url_for('proyecto') }}">Proyecto</a>
+    </div>
+    <div class="features" aria-label="Ventajas principales">
+      <div class="feature">
+        <div class="icn" aria-hidden="true">📚</div>
+        <div><h3>Aprendizaje continuo</h3><p>Disponible cuando lo necesites, sin horarios.</p></div>
+      </div>
+      <div class="feature">
+        <div class="icn" aria-hidden="true">⚡</div>
+        <div><h3>Respuestas inmediatas</h3><p>Motor de IA conectado a la API de Gemini.</p></div>
+      </div>
+      <div class="feature">
+        <div class="icn" aria-hidden="true">✅</div>
+        <div><h3>Fácil de usar</h3><p>UI minimalista, accesible y adaptable a móvil.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--
+<section id="proyecto" style="margin-top:48px">
+  <h2>Acerca del Proyecto</h2>
+  <p style="color:var(--muted);max-width:70ch">Este prototipo usa <strong>HTML5</strong>, <strong>CSS</strong> y <strong>Vue 3</strong> para el frontend. Se conecta a un backend <strong>Flask</strong> en <code>/api/chat</code> que dialoga con la <strong>API de Gemini</strong>.</p>
+</section>
+
+<section id="chat" style="margin-top:24px">
+  <h2>Chat con el asistente</h2>
+  -->
+
+  <!-- Chat Vue 
+  <div class="chat-card" aria-label="Chat con el asistente" aria-live="polite">
+    {% raw %}
+    <div class="chat-header">
+      <span class="chat-dot" aria-hidden="true"></span>
+      <span class="chat-title">Asistente – Grupo 21</span>
+    </div>
+    <div class="messages">
+      <div v-for="msg in messages" :key="msg.id" class="bubble" :class="msg.role">
+        <template v-if="msg.typing">
+          <span class="typing" aria-label="Escribiendo">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </span>
+        </template>
+        <template v-else>{{ msg.text }}</template>
+      </div>
+    </div>
+    <form class="inputbar" @submit.prevent="handleSend">
+      <label class="field" aria-label="Escribe tu mensaje">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M21 15a2 2 0 01-2 2H8l-4 4V5a2 2 0 012-2h13a2 2 0 012 2v10z" stroke="#94a3b8" stroke-width="1.5"/>
+        </svg>
+        <input type="text" v-model="input" placeholder="Escribe tu mensaje…" required @keydown.enter.prevent="handleSend"/>
+      </label>
+      <button class="send" type="button" @click="handleSend">➤</button>
+    </form>
+    {% endraw %}
+  </div>
+</section>
+-->
+
+<!--
+<section id="contacto" style="margin-top:24px">
+  <h2>Contacto</h2>
+  <p style="color:var(--muted)">Equipo Grupo 21 – ESIT • Prototipo académico</p>
+</section>
+-->
+
+<footer>
+  <div class="container">
+    <small>© {{ year }} ChatBot Educativo – Grupo 21 • UI minimalista</small>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script>
+const CONFIG = { endpoint:'/api/chat', demoMode:false }
+
+Vue.createApp({
+  data(){
+    return {
+      messages:[{ id:1, role:'bot', text:'Hola, soy tu ChatBot Educativo. ¿En qué puedo ayudarte hoy?' }],
+      input:'',
+      loading:false
+    }
+  },
+  mounted(){
+    this.scrollToBottom()
+  },
+  methods:{
+    scrollToBottom(){
+      this.$nextTick(()=>{
+        const el = this.$el.querySelector('.messages')
+        if(el) el.scrollTop = el.scrollHeight
+      })
+    },
+    pushUser(text){
+      this.messages.push({ id:Date.now()+Math.random(), role:'user', text })
+      this.scrollToBottom()
+    },
+    pushBot(text){
+      this.messages.push({ id:Date.now()+Math.random(), role:'bot', text })
+      this.scrollToBottom()
+    },
+    showTyping(){
+      const id = Date.now()+Math.random()
+      this.messages.push({ id, role:'bot', typing:true })
+      this.scrollToBottom()
+      return id
+    },
+    hideTyping(id){
+      const idx = this.messages.findIndex(m=>m.id===id)
+      if(idx>-1) this.messages.splice(idx,1)
+    },
+    async handleSend(){
+      const text = this.input.trim()
+      if(!text || this.loading) return
+      this.input=''
+      this.pushUser(text)
+      const typingId = this.showTyping()
+      this.loading=true
+      try{
+        let reply
+        const res = await fetch(CONFIG.endpoint,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({message:text})
+        })
+        if(!res.ok) throw new Error('Error de red')
+        const data = await res.json()
+        reply = data.reply || 'No recibí contenido del servidor.'
+        this.hideTyping(typingId)
+        this.pushBot(reply)
+      } catch(err){
+        this.hideTyping(typingId)
+        this.pushBot('Ocurrió un error. Verifica la conexión con el servidor.')
+        console.error(err)
+      } finally{
+        this.loading=false
+      }
+    }
+  },
+  updated(){
+    this.scrollToBottom()
+  }
+}).mount('#app')
+</script>
+
+</body>
+</html>

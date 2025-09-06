@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contacto – ChatBot Educativo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f7f8; --card:#ffffff; --text:#0f172a; --muted:#475569;
+    --ring:#e2e8f0; --primary:#2563eb; --primary-weak:#dbeafe;
+    --success:#16a34a; --shadow:0 10px 30px rgba(2,6,23,.06); --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg);}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1120px;margin:0 auto;padding:24px}
+  header{position:sticky;top:0;z-index:40;backdrop-filter:saturate(1.2) blur(6px);background:color-mix(in oklab, var(--bg) 85%, white 15%);border-bottom:1px solid var(--ring);}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700}
+  .brand .logo {
+    width: 64px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .brand .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .links{display:flex;gap:18px;color:var(--muted)}
+  .links a{padding:10px 12px;border-radius:10px}
+  .links a:hover{background:#eef2ff;color:#1e293b}
+
+  main{max-width:800px;margin:40px auto;padding:0 16px;}
+  h1{font-size:2rem;margin-bottom:16px}
+  h2{font-size:1.5rem;margin-top:40px;margin-bottom:16px}
+  p{font-size:1rem;margin-bottom:24px;color:var(--muted)}
+  img{max-width:100%;height:auto;border-radius:12px}
+  
+  .contacto-img {
+  margin-top: 40px; /* espacio de 40px, ajustable */
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto; /* centra la imagen */
+}
+
+  /* Estilo para desarrolladores */
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:24px}
+  .feature {
+    background:var(--card);
+    border:1px solid var(--ring);
+    border-radius:var(--radius);
+    padding:18px;
+    box-shadow:var(--shadow);
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+  }
+  .feature .icn{width:36px;height:36px;border-radius:10px;background:var(--primary-weak);display:grid;place-items:center;flex:0 0 36px;font-size:1.25rem}
+  .feature h3{margin:2px 0 6px;font-size:16px}
+  .feature p{margin:0;color:var(--muted);font-size:14px}
+
+  footer{padding:48px 0 24px;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav" role="navigation" aria-label="Navegación principal">
+   <div class="brand">
+    <span class="logo">
+      <img src="{{ url_for('static', filename='contacto.png') }}" alt="Logo ChatBot" />
+    </span>
+    <span class="title">ChatBot Educativo</span>
+  </div>
+
+    <nav class="links">
+      <a href="{{ url_for('index') }}">Inicio</a>
+      <a href="{{ url_for('proyecto') }}">Proyecto</a>
+      <a href="{{ url_for('ichat') }}">Chatbot</a>
+      <a href="{{ url_for('contacto') }}">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Contáctanos</h1>
+  
+  <!-- Sección de desarrolladores -->
+  <section id="desarrolladores">
+    <h2>Desarrolladores del Proyecto</h2>
+    <p>Equipo responsable del desarrollo y diseño del prototipo educativo:</p>
+    <div class="features" aria-label="Equipo de desarrollo">
+      <div class="feature">
+        <div class="icn" aria-hidden="true">👨‍💻</div>
+        <div>
+          <h3>Julio Cesar Sanchez Rodriguez</h3>
+          <p>Desarrollo frontend integración con API de Gemini.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="icn" aria-hidden="true">👩‍💻</div>
+        <div>
+          <h3>Salvador Alberto Alvarado Vazquez</h3>
+          <p>maquetación y pruebas de accesibilidad.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="icn" aria-hidden="true">🧑‍💻</div>
+        <div>
+          <h3>Manuel de Jesús Arenivar Ortiz</h3>
+          <p>Lider de Proyecto, lógica de negocio en el backend y frontend.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+   <!-- Imagen de contacto abajo -->
+  <img src="{{ url_for('static', filename='contacto.png') }}" alt="Imagen de contacto" class="contacto-img">
+
+</main>
+</main>
+
+<footer>
+  <div class="container">
+    <small>© {{ year }} ChatBot Educativo – Grupo 21 • UI minimalista</small>
+  </div>
+</footer>
+</body>
+</html>
