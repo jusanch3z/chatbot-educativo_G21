@@ -2,12 +2,14 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import google.generativeai as genai
 from datetime import datetime  # ✅ Import necesario
+import os
 
 app = Flask(__name__)
 CORS(app)
 
 # Configura tu clave de API de Gemini
-genai.configure(api_key="AIzaSyCL5682QZsS5e25NvTfs4QbtFz1r7SAkQU")
+
+genai.configure(api_key="GEMINI_API_KEY")
 
 # Rutas para páginas HTML
 @app.route("/")
@@ -45,4 +47,5 @@ def chat():
         return jsonify({"reply": "Ocurrió un error con el servicio de IA de Gemini."}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
