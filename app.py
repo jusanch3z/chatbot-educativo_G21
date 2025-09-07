@@ -9,7 +9,8 @@ CORS(app)
 
 # Configura tu clave de API de Gemini
 
-genai.configure(api_key="GEMINI_API_KEY")
+# genai.configure(api_key="GEMINI_API_KEY")
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
 # Rutas para páginas HTML
 @app.route("/")
